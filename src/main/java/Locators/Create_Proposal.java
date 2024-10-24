@@ -6,10 +6,10 @@ import io.appium.java_client.MobileBy;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 
-
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.function.Function;
 
 import static Utility.Functions.print;
 
@@ -30,6 +30,7 @@ public class Create_Proposal {
     By select_room_amount = By.xpath("//*[@text='21 - 25 m²']");
     By renovation_scope = By.xpath("//*[@text='Demolition']"); // Xpath to select scope
     By startdate = By.xpath("//*[@text='Planned start date']"); // Xpath to select the start date
+    By post_button = By.xpath("//*[@text='Post']");
 
 
 
@@ -139,7 +140,72 @@ public class Create_Proposal {
                 print("*********Test Case Fail**********");
                 print("The User Was Not Able To Select The Project End Date");
             }
-
         }
+        // Image upload screen Next button
+        Functions.simpleWait(Constants.wait_3);
+        try {
+            Functions.driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget." +
+                    "FrameLayout/android.widget.FrameLayout/android.view.ViewGroup[2]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/" +
+                    "android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[4]/android.view.ViewGroup[2]")).click();
+        }catch (Exception e){
+            print("*********Test Case Fail**********");
+            print("The User Was Not Able To Click On The Next Button Comes On the Project Image Selection Screen");
+        }
+
+        // Project description screen and Project Location screen
+        Functions.simpleWait(Constants.wait_2);
+        try{
+            Functions.driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget" +
+                    ".FrameLayout/android.widget.FrameLayout/android.view.ViewGroup[1]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android." +
+                    "view.ViewGroup/android.view.ViewGroup[1]/android.widget.ScrollView/android.view.ViewGroup/android.widget.EditText[2]")).sendKeys("Test Project");
+            print("The user successfully give the project description");
+            Functions.simpleWait(Constants.wait_2);
+            Functions.driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget." +
+                    "LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup[1]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android" +
+                    ".view.ViewGroup[1]/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.widget.EditText")).sendKeys("Dubai");
+            print("The User successfully give the project location");
+            Functions.simpleWait(Constants.wait_2);
+            Functions.driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget" +
+                    ".LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup[1]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup" +
+                    "/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[3]/android.view.ViewGroup[2]")).click();
+
+        }catch (Exception e){
+            print("*********Test Case Fail**********");
+            print("The User Was Not Able To Give Project Description And Project Location");
+        }
+
+        print("**********Check For The Project Details And Project Post Button");
+        Functions.simpleWait(Constants.wait_2);
+            try{
+                Functions.driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout" +
+                        "/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup[2]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup" +
+                        "/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[4]/android.view.ViewGroup[2]")).click();
+                print("The user was successfully click on the project button: "+ post_button);
+            }catch (Exception e){
+                print("**********Test Case Fail*************");
+                print("The User was not able to click on the project post button: "+ post_button);
+            }
+        WebDriverWait wait = new WebDriverWait(Functions.driver, Duration.ofSeconds(20));
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(MobileBy.xpath("//*[@text='Congratulations!']")));
+        // Check if the element is displayed
+        if (element.isDisplayed()) {
+            print("Element is visible." + element);
+            print("The Project is successfully Created");
+        } else {
+            print("Element is not visible.");
+        }
+
+        print("***********Checking For View All Project Button******************");
+        try {
+            Functions.driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget" +
+                    ".FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup[1]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view" +
+                    ".ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.TextView")).click();
+            print("The user was successfully click on the view all project button");
+        }catch (Exception e){
+            print("**********Test Case Fail*************");
+            print("The user was not able to click on the view all project button");
+        }
+
+
     }
 }
