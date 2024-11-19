@@ -27,8 +27,7 @@ public class AppTest_Login {
         loginScreen.login();
         Functions.simpleWait(Constants.wait_2);
         createProposal.Start_proposal();
-
-
+        Functions.simpleWait(Constants.wait_2);
 
     }
 }
